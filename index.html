@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visual Designer Portfolio</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    /* Filter Buttons */
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid #334155;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Gallery Grid */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .portfolio-item {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      transition: transform 0.2s ease;
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .item-info {
+      padding: 1.25rem;
+    }
+
+    .item-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .item-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .item-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .portfolio-item.hide {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Visual Designer Portfolio</h1>
+    <p>UI/UX • Social Media Ads • Video Editing • Print & Motion</p>
+  </header>
+
+  <nav class="filter-container">
+    <button class="filter-btn active" onclick="filterSelection('all')">All</button>
+    <button class="filter-btn" onclick="filterSelection('uiux')">UI/UX Mobile</button>
+    <button class="filter-btn" onclick="filterSelection('social-ads')">Social Ads</button>
+    <button class="filter-btn" onclick="filterSelection('video')">Video & Motion</button>
+    <button class="filter-btn" onclick="filterSelection('print')">Print & Posters</button>
+  </nav>
+
+  <main class="portfolio-grid">
+    <!-- UI/UX Item -->
+    <article class="portfolio-item uiux">
+      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Mobile UI Project">
+      <div class="item-info">
+        <p class="item-category">UI/UX Mobile</p>
+        <h2 class="item-title">E-Commerce Mobile App</h2>
+        <p class="item-desc">User interface design and design system for a shopping app.</p>
+      </div>
+    </article>
+
+    <!-- Social Ads Item -->
+    <article class="portfolio-item social-ads">
+      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Social Media Ad">
+      <div class="item-info">
+        <p class="item-category">Social Media Ads</p>
+        <h2 class="item-title">Product Launch Campaign</h2>
+        <p class="item-desc">High-converting social ad visuals optimized for Instagram and Facebook.</p>
+      </div>
+    </article>
+
+    <!-- Video Editing Item -->
+    <article class="portfolio-item video">
+      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Video Reel Thumbnail">
+      <div class="item-info">
+        <p class="item-category">Video & Motion</p>
+        <h2 class="item-title">Promotional Video Ad</h2>
+        <p class="item-desc">Commercial video editing, dynamic cuts, and motion transitions.</p>
+      </div>
+    </article>
+
+    <!-- Print Media Item -->
+    <article class="portfolio-item print">
+      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Brochure Design">
+      <div class="item-info">
+        <p class="item-category">Print & Posters</p>
+        <h2 class="item-title">Brand Brochure & Poster</h2>
+        <p class="item-desc">Tri-fold brochure layout and promotional print posters.</p>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    function filterSelection(category) {
+      const items = document.querySelectorAll('.portfolio-item');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      // Update active button state
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Filter portfolio items
+      items.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+          item.classList.remove('hide');
+        } else {
+          item.classList.add('hide');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
