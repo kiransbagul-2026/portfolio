@@ -100,7 +100,7 @@ body {
 /* Grid Layout for 8 Cards */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -116,6 +116,7 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
+  width: 100%;
 }
 
 .card:hover {
@@ -123,7 +124,7 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Card Image Section */
+/* Card Image Section (Strict Responsive Boundaries) */
 .card-image {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -136,6 +137,7 @@ body {
 
 .card-image img {
   width: 100%;
+  max-width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
@@ -178,6 +180,12 @@ body {
 
 .card:hover .card-arrow {
   transform: translateX(4px);
+}
+
+/* Global Responsive Fix for All Images */
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Footer */
