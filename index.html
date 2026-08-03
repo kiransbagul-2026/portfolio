@@ -85,10 +85,12 @@
       overflow: hidden;
       border: 1px solid #334155;
       transition: transform 0.2s ease;
+      cursor: pointer;
     }
 
     .portfolio-item:hover {
       transform: translateY(-4px);
+      border-color: var(--accent);
     }
 
     .portfolio-item img {
@@ -124,6 +126,116 @@
     .portfolio-item.hide {
       display: none;
     }
+
+    /* Modal Lightbox & Carousel Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      max-width: 850px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-img {
+      max-width: 100%;
+      max-height: 450px;
+      object-fit: contain;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, 0.7);
+      color: white;
+      border: 1px solid #334155;
+      font-size: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent);
+      color: #0f172a;
+    }
+
+    .prev-btn { left: 1rem; }
+    .next-btn { right: 1rem; }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(15, 23, 42, 0.8);
+      color: white;
+      border: 1px solid #334155;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .modal-details {
+      padding: 1.5rem;
+    }
+
+    .modal-details h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-details span {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .modal-details p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
@@ -142,9 +254,10 @@
   </nav>
 
   <main class="portfolio-grid">
-    <!-- UI/UX Item -->
-    <article class="portfolio-item uiux">
-      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Mobile UI Project">
+
+    <!-- Card 1: UI/UX -->
+    <article class="portfolio-item uiux" onclick="openModal(0)">
+      <img src="https://lh3.googleusercontent.com/d/1HIpx60YWCd2kxnLX85Fb1mBr9uEscukE" alt="E-Commerce Mobile App">
       <div class="item-info">
         <p class="item-category">UI/UX Mobile</p>
         <h2 class="item-title">E-Commerce Mobile App</h2>
@@ -152,9 +265,9 @@
       </div>
     </article>
 
-    <!-- Social Ads Item -->
-    <article class="portfolio-item social-ads">
-      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Social Media Ad">
+    <!-- Card 2: Social Ads -->
+    <article class="portfolio-item social-ads" onclick="openModal(1)">
+      <img src="https://picsum.photos/id/20/600/400" alt="Product Launch Campaign">
       <div class="item-info">
         <p class="item-category">Social Media Ads</p>
         <h2 class="item-title">Product Launch Campaign</h2>
@@ -162,9 +275,9 @@
       </div>
     </article>
 
-    <!-- Video Editing Item -->
-    <article class="portfolio-item video">
-      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Video Reel Thumbnail">
+    <!-- Card 3: Video Editing -->
+    <article class="portfolio-item video" onclick="openModal(2)">
+      <img src="https://picsum.photos/id/36/600/400" alt="Promotional Video Ad">
       <div class="item-info">
         <p class="item-category">Video & Motion</p>
         <h2 class="item-title">Promotional Video Ad</h2>
@@ -172,27 +285,118 @@
       </div>
     </article>
 
-    <!-- Print Media Item -->
-    <article class="portfolio-item print">
-      <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_HERE" alt="Brochure Design">
+    <!-- Card 4: Print Media -->
+    <article class="portfolio-item print" onclick="openModal(3)">
+      <img src="https://picsum.photos/id/48/600/400" alt="Brand Brochure & Poster">
       <div class="item-info">
         <p class="item-category">Print & Posters</p>
         <h2 class="item-title">Brand Brochure & Poster</h2>
         <p class="item-desc">Tri-fold brochure layout and promotional print posters.</p>
       </div>
     </article>
+
   </main>
 
+  <!-- Lightbox Modal with Carousel -->
+  <div class="modal" id="portfolioModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <div class="carousel-container">
+        <button class="nav-btn prev-btn" onclick="prevSlide()">&#10094;</button>
+        <img id="carouselImg" class="carousel-img" src="" alt="Detail view">
+        <button class="nav-btn next-btn" onclick="nextSlide()">&#10095;</button>
+      </div>
+      <div class="modal-details">
+        <span id="modalCategory">Category</span>
+        <h3 id="modalTitle">Project Title</h3>
+        <p id="modalDesc">Project description goes here.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Project Data: Add multiple image links into the 'images' array for each project!
+    const projects = [
+      {
+        title: "E-Commerce Mobile App",
+        category: "UI/UX Mobile",
+        desc: "User interface design, wireframes, and design system for a modern shopping app.",
+        images: [
+          "https://lh3.googleusercontent.com/d/1GiyaYO-q-fyo86__W3mZjWG9QrLNQent",
+          "https://lh3.googleusercontent.com/d/1wC6CdlFgtmy_Ssw3oO1BxUEqunkNcrlb",
+          "https://lh3.googleusercontent.com/d/1GPhuwOqFXGaBqVbN2vcGe3sv3P7kNFmI"
+        ]
+      },
+      {
+        title: "Product Launch Campaign",
+        category: "Social Media Ads",
+        desc: "High-converting social ad visuals optimized for Instagram stories and post feeds.",
+        images: [
+          "https://picsum.photos/id/20/900/600",
+          "https://picsum.photos/id/26/900/600"
+        ]
+      },
+      {
+        title: "Promotional Video Ad",
+        category: "Video & Motion",
+        desc: "Commercial video editing, dynamic cuts, color grading, and motion transitions.",
+        images: [
+          "https://picsum.photos/id/36/900/600",
+          "https://picsum.photos/id/42/900/600"
+        ]
+      },
+      {
+        title: "Brand Brochure & Poster",
+        category: "Print & Posters",
+        desc: "Tri-fold brochure layout, print-ready mockups, and corporate promotional posters.",
+        images: [
+          "https://picsum.photos/id/48/900/600",
+          "https://picsum.photos/id/60/900/600"
+        ]
+      }
+    ];
+
+    let currentProjectIndex = 0;
+    let currentImageIndex = 0;
+
+    function openModal(index) {
+      currentProjectIndex = index;
+      currentImageIndex = 0;
+      updateModal();
+      document.getElementById('portfolioModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('portfolioModal').classList.remove('active');
+    }
+
+    function updateModal() {
+      const project = projects[currentProjectIndex];
+      document.getElementById('carouselImg').src = project.images[currentImageIndex];
+      document.getElementById('modalCategory').textContent = project.category;
+      document.getElementById('modalTitle').textContent = project.title;
+      document.getElementById('modalDesc').textContent = project.desc;
+    }
+
+    function nextSlide() {
+      const images = projects[currentProjectIndex].images;
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      updateModal();
+    }
+
+    function prevSlide() {
+      const images = projects[currentProjectIndex].images;
+      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+      updateModal();
+    }
+
     function filterSelection(category) {
       const items = document.querySelectorAll('.portfolio-item');
       const buttons = document.querySelectorAll('.filter-btn');
 
-      // Update active button state
       buttons.forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
 
-      // Filter portfolio items
       items.forEach(item => {
         if (category === 'all' || item.classList.contains(category)) {
           item.classList.remove('hide');
@@ -201,6 +405,16 @@
         }
       });
     }
+
+    // Keyboard support for carousel & closing
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('portfolioModal');
+      if (modal.classList.contains('active')) {
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+      }
+    });
   </script>
 </body>
 </html>
